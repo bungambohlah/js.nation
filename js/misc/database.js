@@ -33,6 +33,8 @@ let Database = new function() {
     let index;
 
     this.setUp = function() {
+        this.autoPlay();
+
         elmFile = document.getElementById("fileSelector")
         elmAdd = document.getElementById("add2DB");
         elmView = document.getElementById("viewDB");
@@ -81,6 +83,54 @@ let Database = new function() {
         Util.setCookie("shuffle", shuffle);
 
         applyShuffle();
+    }
+
+    this.autoPlay = () => {
+        var dir = "audio/";
+        var fileextension = ".mp3";
+
+        $.ajax({
+            //This will retrieve the contents of the folder if the folder is configured as 'browsable'
+            url: dir,
+            success: function (data) {
+                var files = [];
+                var xhr = [];
+                //List all .mp3 file names in the page
+                $(data).find("a:contains(" + fileextension + ")").each(function () {
+                    var filename = this.href.replace(window.location.host, "").replace("http://", "");
+                    files.push(filename);
+                });
+
+                console.log('loading files...');
+                
+                for(var i = 0; i < files.length; i++) {
+                    (function (i){
+                        var blob = null;
+                        xhr[i] = new XMLHttpRequest(); 
+                        xhr[i].open("GET", files[i]); 
+                        xhr[i].responseType = "blob";//force the HTTP response, response-type header to be blob
+                        xhr[i].send();
+                        xhr[i].onload = function() 
+                        {
+                            blob = xhr[i].response;//xhr.response is now a blob object
+                            console.log(blob);
+                            fileStore = new File([blob], files[i]);
+                            url = URL.createObjectURL(fileStore);
+                            console.log(i);
+                        }
+                    })(i);
+                }
+                elmFile.src = "/audio/videoplayback.mp3";
+                elmTitle.value = "auto";
+                elmArtist.value = "auto";
+                $('#add2DB').attr("disabled", false);
+                // $('#fileSelector').change();
+                // $('#add2DB').click();
+
+
+                handleRefresh();
+            }
+        });
     }
 
     let applyShuffle = function() {

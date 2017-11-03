@@ -29,6 +29,20 @@ The following browsers are **not** supported:
 - Safari (limited AudioNode support)
 - Internet Explorer (no AudioNode support)
 
+## Installation (added by bungambohlah)
+
+First make sure you have npm installed
+
+```sh
+cd my_js.nation && npm install
+```
+
+## Start the app
+
+```sh
+npm start
+```
+
 ## Licensing
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public

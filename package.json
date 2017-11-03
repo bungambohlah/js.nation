@@ -1,0 +1,23 @@
+{
+  "name": "js.nation",
+  "version": "1.0.0",
+  "description": "ApepPepPep",
+  "main": "-",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/http-server . -p 1998"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bungambohlah/js.nation.git"
+  },
+  "author": "bungambohlah@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bungambohlah/js.nation/issues"
+  },
+  "homepage": "https://github.com/bungambohlah/js.nation#readme",
+  "dependencies": {
+    "http-server": "^0.10.0"
+  }
+}
