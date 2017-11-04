@@ -33,8 +33,6 @@ let Database = new function() {
     let index;
 
     this.setUp = function() {
-        this.autoPlay();
-
         elmFile = document.getElementById("fileSelector")
         elmAdd = document.getElementById("add2DB");
         elmView = document.getElementById("viewDB");
@@ -73,6 +71,8 @@ let Database = new function() {
             }
 
         });
+
+        this.autoPlay();
     }
 
     this.toggleShuffle = function() {
@@ -100,35 +100,44 @@ let Database = new function() {
                     var filename = this.href.replace(window.location.host, "").replace("http://", "");
                     files.push(filename);
                 });
-
-                console.log('loading files...');
                 
                 for(var i = 0; i < files.length; i++) {
                     (function (i){
-                        var blob = null;
+                        var blob = [];
                         xhr[i] = new XMLHttpRequest(); 
                         xhr[i].open("GET", files[i]); 
                         xhr[i].responseType = "blob";//force the HTTP response, response-type header to be blob
                         xhr[i].send();
                         xhr[i].onload = function() 
                         {
-                            blob = xhr[i].response;//xhr.response is now a blob object
-                            console.log(blob);
-                            fileStore = new File([blob], files[i]);
-                            url = URL.createObjectURL(fileStore);
-                            console.log(i);
+                            blob[i] = xhr[i].response;//xhr.response is now a blob object
+                            fileStore = new File([blob[i]], files[i]);
+                            // url = URL.createObjectURL(fileStore);
+
+                            elmFile.src = files[i];
+                            var title = files[i];
+                            var artist = "auto"+i;
+                            var itunesStr = "./img/art_ph.png";
+                            // addSong();
+                            db.id3.add({artist: artist, title: title, duration: null, img: itunesStr, audio: fileStore});
+                            order[totalCount] = totalCount;
+                            index = totalCount;
+                            totalCount++;
+                            
+                            db.id3.where("artist").equals("auto0").each(result => {
+                                console.log(result.audio);
+                                GuiWrapper.setTitle(result.artist, result.title);
+                                Nodes.playSongFromUrl(URL.createObjectURL(result.audio));
+                                Background.resetBG();
+                                Background.loadRedditBackground();
+                            });
+                            
+                            handleRefresh();
                         }
                     })(i);
                 }
-                elmFile.src = "/audio/videoplayback.mp3";
-                elmTitle.value = "auto";
-                elmArtist.value = "auto";
-                $('#add2DB').attr("disabled", false);
-                // $('#fileSelector').change();
-                // $('#add2DB').click();
 
-
-                handleRefresh();
+                return true;
             }
         });
     }
