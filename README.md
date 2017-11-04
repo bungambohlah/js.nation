@@ -31,7 +31,7 @@ The following browsers are **not** supported:
 
 ## Installation (added by bungambohlah)
 
-First make sure you have npm installed
+First make sure you have npm installed, if not you can download at [NPM site](https://www.npmjs.com/package/npm)
 
 ```sh
 npm install
