@@ -34,7 +34,7 @@ The following browsers are **not** supported:
 First make sure you have npm installed
 
 ```sh
-cd my_js.nation && npm install
+npm install
 ```
 
 ## Start the app
