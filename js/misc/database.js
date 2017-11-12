@@ -97,7 +97,7 @@ let Database = new function() {
                 var xhr = [];
                 //List all .mp3 file names in the page
                 $(data).find("a:contains(" + fileextension + ")").each(function () {
-                    var filename = this.href.replace(window.location.host, "").replace("http://", "");
+                    var filename = `./audio/${$(this).attr("href")}`;
                     files.push(filename);
                 });
                 
